@@ -3,6 +3,7 @@ package com.ticketnest.user_service.Controller;
 import com.ticketnest.user_service.Service.UserService;
 import com.ticketnest.user_service.dto.RegisterRequest;
 import com.ticketnest.user_service.dto.RegisterResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request)
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request)
     {
         RegisterResponse result = userService.register(request);
         return ResponseEntity.ok(result);
