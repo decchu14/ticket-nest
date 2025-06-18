@@ -4,14 +4,14 @@ import com.ticketnest.user_service.Repository.UserRepository;
 import com.ticketnest.user_service.dto.RegisterRequest;
 import com.ticketnest.user_service.dto.RegisterResponse;
 import com.ticketnest.user_service.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public RegisterResponse register(RegisterRequest request)
     {
