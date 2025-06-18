@@ -5,6 +5,7 @@ import com.ticketnest.user_service.dto.RegisterRequest;
 import com.ticketnest.user_service.dto.RegisterResponse;
 import com.ticketnest.user_service.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,12 +25,15 @@ public class UserService {
         try {
             userRepository.save(user);
         }
+        catch(DataIntegrityViolationException e)
+        {
+            throw new IllegalArgumentException("Email is already taken");
+        }
         catch(Exception e)
         {
-            return new RegisterResponse("Failed to register user due to : "+e.getMessage());
+            throw new RuntimeException("Failed to register user due to : "+e.getMessage());
         }
         return new RegisterResponse("User registered successfully");
-
     }
 
 }
