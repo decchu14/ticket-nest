@@ -21,8 +21,15 @@ public class UserService {
                 .password(request.getPassword())
                 .role(request.getRole()).build();
 
-        userRepository.save(user);
-        return new RegisterResponse("User saved successfully");
+        try {
+            userRepository.save(user);
+        }
+        catch(Exception e)
+        {
+            return new RegisterResponse("Failed to register user due to : "+e.getMessage());
+        }
+        return new RegisterResponse("User registered successfully");
+
     }
 
 }
