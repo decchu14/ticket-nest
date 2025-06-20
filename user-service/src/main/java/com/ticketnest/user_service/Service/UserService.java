@@ -6,6 +6,7 @@ import com.ticketnest.user_service.dto.RegisterResponse;
 import com.ticketnest.user_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,13 +14,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RegisterResponse register(RegisterRequest request)
     {
+        String hashedPassword = passwordEncoder.encode(request.getPassword());
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(hashedPassword)
                 .role(request.getRole()).build();
 
         try {
