@@ -1,6 +1,8 @@
 package com.ticketnest.user_service.Service;
 
 import com.ticketnest.user_service.Repository.UserRepository;
+import com.ticketnest.user_service.dto.LoginRequest;
+import com.ticketnest.user_service.dto.LoginResponse;
 import com.ticketnest.user_service.dto.RegisterRequest;
 import com.ticketnest.user_service.dto.RegisterResponse;
 import com.ticketnest.user_service.model.User;
@@ -39,4 +41,13 @@ public class UserService {
         return new RegisterResponse("User registered successfully");
     }
 
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid email"));
+        boolean passwordMatch = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        if(!passwordMatch)
+            throw new IllegalArgumentException("Invalid password");
+
+        return new LoginResponse("Login Successful");
+    }
 }

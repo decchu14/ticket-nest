@@ -1,6 +1,8 @@
 package com.ticketnest.user_service.Controller;
 
 import com.ticketnest.user_service.Service.UserService;
+import com.ticketnest.user_service.dto.LoginRequest;
+import com.ticketnest.user_service.dto.LoginResponse;
 import com.ticketnest.user_service.dto.RegisterRequest;
 import com.ticketnest.user_service.dto.RegisterResponse;
 import jakarta.validation.Valid;
@@ -21,5 +23,12 @@ public class UserController {
     {
         RegisterResponse result = userService.register(request);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request)
+    {
+        LoginResponse response = userService.login(request);
+        return ResponseEntity.ok(response);
     }
 }
