@@ -1,6 +1,7 @@
 package com.ticketnest.user_service.Service;
 
 import com.ticketnest.user_service.Repository.UserRepository;
+import com.ticketnest.user_service.Security.JwtUtil;
 import com.ticketnest.user_service.dto.LoginRequest;
 import com.ticketnest.user_service.dto.LoginResponse;
 import com.ticketnest.user_service.dto.RegisterRequest;
@@ -17,6 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public RegisterResponse register(RegisterRequest request)
     {
@@ -48,6 +50,7 @@ public class UserService {
         if(!passwordMatch)
             throw new IllegalArgumentException("Invalid password");
 
-        return new LoginResponse("Login Successful");
+        String token = jwtUtil.GenerateToken(request.getEmail());
+        return new LoginResponse("Login Successful",token);
     }
 }
